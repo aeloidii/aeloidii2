@@ -18,12 +18,12 @@ const GrossistelivreurLogin = () => {
       <div className="flex flex-col gap-5">
         <h1 className="text-3xl md:mt-3 font-extrabold text-blue-950">
           LOGIN PAGE
-          {/* <button
+          <button
             className="rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-blue-950 hover:text-white text-center text-sm font-inter ml-5"
             onClick={openModal}
           >
             Watch Demo
-          </button> */}
+          </button>
         </h1>
         <h5 className="text-red-500 font-inter">Authentication Process:</h5>
         <p className="text-sm text-gray-600 sm:text-base max-w-xl">

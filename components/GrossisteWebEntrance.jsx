@@ -20,12 +20,12 @@ const GrossisteWebEntrance = () => {
         <h1 className="text-3xl md:mt-3 font-extrabold text-blue-950">
           Intermediate Application for Wholesale Distributors of Medical
           Products
-          {/* <button
+          <button
             className="rounded-full border border-black bg-transparent py-1.5 px-5 text-black transition-all hover:bg-blue-950 hover:text-white text-center text-sm font-inter ml-5"
             onClick={openModal}
           >
             Watch Demo
-          </button> */}
+          </button>
         </h1>
         <h3> Web Application ( FLUTTER, DART) </h3>
         <h5 className="text-red-500 font-inter">Programming Languages:</h5>
