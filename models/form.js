@@ -3,7 +3,6 @@ import { Schema, model, models } from 'mongoose';
 const MessageSchema = new Schema({
   email: {
     type: String,
-    unique: [true, 'Email already exists!'],
     required: [true, 'Email is required!'],
   },
   username: {
@@ -16,6 +15,6 @@ const MessageSchema = new Schema({
   }
 });
 
-const Form = models.Form || model("Message", MessageSchema);
+const Form = models.Form || model("Form", MessageSchema);
 
 export default Form;

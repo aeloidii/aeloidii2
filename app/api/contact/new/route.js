@@ -1,32 +1,62 @@
 import { connectToDB } from "@utils/database";
-import Form from '@models/form';
+import Form from "@models/form";
+import { Resend } from "resend";
+import { EmailTemplate } from "@components/email-template";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const POST = async (req) => {
   try {
     await connectToDB();
     
-    // Destructure data from request body
     const { name, email, message } = await req.json();
 
-    // Create a new instance of Form using Mongoose model
     const newForm = new Form({
-      username: name,  // Ensure this matches your schema
+      username: name,
       email,
       message,
     });
-
-    // Save the new form entry to MongoDB
     await newForm.save();
 
-    // Respond with a success message and status 201 (Created)
-    return new Response(JSON.stringify(newForm), {
-      status: 201,
-    });
+    try {
+      const emailResponse = await resend.emails.send({
+        to: ['aeloidii@gmail.com'],
+        from: 'onboarding@resend.dev',
+        subject: `New Contact Message from ${name}`,
+        react: EmailTemplate({ name, email, message }),
+      });
+
+      return new Response(
+        JSON.stringify({ 
+          message: "Email sent successfully",
+          emailId: emailResponse.id 
+        }), 
+        { status: 200 }
+      );
+    } catch (error) {
+      console.error("Detailed email error:", {
+        error: error.message,
+        code: error.statusCode,
+        details: error.details
+      });
+
+      return new Response(
+        JSON.stringify({ 
+          message: "Failed to send email",
+          error: error.message,
+          code: error.statusCode
+        }), 
+        { status: 500 }
+      );
+    }
   } catch (error) {
-    // Handle any errors that occur during database interaction
-    console.error("Error creating form entry:", error);
-    return new Response("Failed to create a new contact form", {
-      status: 500,
-    });
+    console.error("Server error:", error);
+    return new Response(
+      JSON.stringify({
+        message: "Failed to process request",
+        error: error.message
+      }), 
+      { status: 500 }
+    );
   }
 };
