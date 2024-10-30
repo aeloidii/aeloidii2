@@ -13,7 +13,7 @@ import Contact from "@components/Contact";
 
 const Home = () => {
   const downloadCV = () => {
-    const cvUrl = "/assets/CV.pdf";
+    const cvUrl = "/assets/CV_latex.pdf";
     window.open(cvUrl, "_blank");
   };
   return (
