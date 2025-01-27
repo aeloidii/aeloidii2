@@ -12,8 +12,12 @@ import Designs from "@components/Designs";
 import Contact from "@components/Contact";
 
 const Home = () => {
-  const downloadCV = () => {
-    const cvUrl = "/assets/CV_latex.pdf";
+  const downloadCVEnglish = () => {
+    const cvUrl = "/assets/CV_abdessamad_el_oidii.pdf";
+    window.open(cvUrl, "_blank");
+  };
+  const downloadCVFrench = () => {
+    const cvUrl = "/assets/CVf_abdessamad_el_oidii.pdf";
     window.open(cvUrl, "_blank");
   };
   return (
@@ -28,9 +32,14 @@ const Home = () => {
         Graphic Designer and An a Network and Telecommunications Engineering
         Student Who Loves to Work and Share Content.
       </p>
-      <button className="outline_btn mt-10" onClick={downloadCV}>
-        Download CV
-      </button>
+      <div className="flex flex-row gap-2">
+        <button className="outline_btn mt-10" onClick={downloadCVEnglish}>
+        CV English
+        </button>
+        <button className="outline_btn mt-10" onClick={downloadCVFrench}>
+        CV French
+        </button>
+      </div>
       <div className="w-full flex-center justify-between mt-4">
         <Link
           href="https://www.behance.net/abdessaeloidi"
