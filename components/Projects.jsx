@@ -1,17 +1,18 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import Card from "@components/Card";
+import { Navigation, EffectCoverflow } from "swiper/modules";
 
 const Projects = () => {
   const [startIndex, setStartIndex] = useState(0);
   const [isMediumDevice, setIsMediumDevice] = useState(false);
 
   const checkScreenSize = () => {
-    if (window.innerWidth >= 640) {
-      setIsMediumDevice(true);
-    } else {
-      setIsMediumDevice(false);
-    }
+    setIsMediumDevice(window.innerWidth >= 640);
   };
+
   useEffect(() => {
     checkScreenSize();
     window.addEventListener("resize", checkScreenSize);
@@ -64,8 +65,7 @@ const Projects = () => {
     },
     {
       image: "/assets/images/grossiste.png",
-      title:
-        "The delivery driver's mobile application",
+      title: "The delivery driver's mobile application",
       desc: "Flutter, Dart, Firebase",
       link: "/livreur-grossiste",
     },
@@ -81,51 +81,49 @@ const Projects = () => {
           My Latest Projects
         </h3>
       </div>
+
       <div className="w-full mt-5 relative">
-        {startIndex > 0 && (
-          <button
-            className="absolute sm:block hidden left-[-50px] top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-blue-950 hover:text-white font-semibold px-2 py-1 rounded-md"
-            onClick={handlePrevious}
-          >
-            Previous
-          </button>
-        )}
-        {isMediumDevice ? (
-          <div className="w-full flex sm:flex-row flex-col gap-5 transition-transform duration-500 ease-in-out transform translate-x-[-calc(33.3333%*${startIndex})]">
-            {projects
-              .slice(startIndex, startIndex + 3)
-              .map((project, index) => (
-                <Card
-                  key={index}
-                  image={project.image}
-                  title={project.title}
-                  desc={project.desc}
-                  link={project.link}
-                />
-              ))}
-          </div>
-        ) : (
-          <div className="w-full flex flex-col gap-5">
-            {projects.map((project, index) => (
+        <Swiper
+          spaceBetween={2}
+          slidesPerView={isMediumDevice ? 3 : 1}
+          modules={[Navigation, EffectCoverflow]}
+          effect="coverflow"
+          grabCursor
+          centeredSlides
+          loop
+          navigation
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 200,
+            modifier: 1,
+            slideShadows: true,
+          }}
+        >
+          {projects.map((project, index) => (
+            <SwiperSlide key={index}>
               <Card
-                key={index}
                 image={project.image}
                 title={project.title}
                 desc={project.desc}
                 link={project.link}
               />
-            ))}
-          </div>
-        )}
-        {startIndex + 3 < projects.length && (
-          <button
-            className="absolute sm:block hidden right-[-25px] top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-blue-950 hover:text-white font-semibold px-2 py-1 rounded-md"
-            onClick={handleNext}
-          >
-            Next
-          </button>
-        )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
+      <style jsx>{`
+        :global(.swiper) {
+          padding: 3rem 0;
+          width: 60vw !important;
+        }
+
+        :global(.swiper-slide) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      `}</style>
     </section>
   );
 };

@@ -2,7 +2,7 @@ import ContactFormCard from "@components/ContactFormCard";
 
 const Contact = () => {
   return (
-    <section className="w-full mt-20 flex flex-col relative">
+    <section className="w-full flex flex-col relative">
       <div className="flex flex-col items-center">
         <h1 className="text-sm md:mt-3 font-extrabold leading-[1.15] text-gray-400">
           Contact

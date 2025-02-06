@@ -1,5 +1,10 @@
 import Image from "next/image";
 import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, EffectCoverflow } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/effect-coverflow";
 
 const Designs = () => {
   const imageList = [
@@ -82,51 +87,93 @@ const Designs = () => {
     },
   ];
 
-  const handleMouseEnter = (event, title) => {
-    event.target.setAttribute("data-title", title);
-  };
-
-  const handleMouseLeave = (event) => {
-    event.target.removeAttribute("data-title");
-  };
-
   return (
-    <section className="w-full mt-20 flex flex-col relative">
-      <div className="flex flex-col items-center">
-        <h1 className="text-sm md:mt-3 font-extrabold leading-[1.15] text-gray-400">
-          Portfolio
-        </h1>
-        <h3 className="mt-2 text-sm font-extrabold leading-[1.15] text-gray-600 sm:text-xl">
-          Check My Wonderful Works
-        </h3>
-      </div>
-      <div className="w-full mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {imageList.map((image, index) => (
-          <div key={index} className="relative">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              width={400}
-              height={200}
-              className="object-contain"
-              onMouseEnter={(e) => handleMouseEnter(e, image.title)}
-              onMouseLeave={handleMouseLeave}
-            />
-            {image.title.startsWith("BAC") ? (
-              <div className="absolute inset-0 flex items-center justify-center text-black text-center rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-200 to-transparent rounded-lg opacity-90"></div>
-                <p className="text-lg font-medium font-oswald relative z-10">
-                  {image.title}
-                </p>
+    <section className="w-full mt-10 flex flex-col items-center overflow-x-hidden">
+      <h1 className="text-sm md:mt-3 font-extrabold text-gray-400">
+        Portfolio
+      </h1>
+      <h3 className="mt-2 text-sm font-extrabold text-gray-600 sm:text-xl text-center">
+        Check My Wonderful Works
+      </h3>
+
+      <div className="w-full mt-5">
+        <Swiper
+          modules={[Navigation, EffectCoverflow]}
+          effect="coverflow"
+          grabCursor
+          centeredSlides
+          slidesPerView={1.5}
+          loop
+          navigation
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 200,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          className="w-full"
+        >
+          {imageList.map((image, index) => (
+            <SwiperSlide key={index}>
+              <div className="relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] group">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="rounded-lg shadow-lg object-contain"
+                  priority={index === 0}
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-center p-4 rounded-b-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-sm md:text-base lg:text-lg font-medium px-2">
+                    {image.title}
+                  </p>
+                </div>
               </div>
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center text-white text-center rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300">
-                <p className="text-lg font-medium font-oswald">{image.title}</p>
-              </div>
-            )}
-          </div>
-        ))}
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
+
+      <style jsx>{`
+        :global(.swiper) {
+          padding: 3rem 0;
+          width: 80vw !important;
+        }
+
+        :global(.swiper-slide) {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        :global(.swiper-button-prev),
+        :global(.swiper-button-next) {
+          color: white;
+          background-color: rgba(0, 0, 0, 0.5);
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          backdrop-filter: blur(4px);
+        }
+
+        :global(.swiper-button-prev) {
+          left: 20px;
+        }
+
+        :global(.swiper-button-next) {
+          right: 20px;
+        }
+
+        :global(.swiper-button-prev:after),
+        :global(.swiper-button-next:after) {
+          font-size: 24px;
+        }
+
+        :global(.swiper-button-disabled) {
+          opacity: 0.3 !important;
+        }
+      `}</style>
     </section>
   );
 };

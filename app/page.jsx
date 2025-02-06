@@ -11,6 +11,8 @@ import Designs from "@components/Designs";
 
 import Contact from "@components/Contact";
 
+import { motion } from "framer-motion";
+
 const Home = () => {
   const downloadCVEnglish = () => {
     const cvUrl = "/assets/CV_abdessamad_el_oidii.pdf";
@@ -20,6 +22,7 @@ const Home = () => {
     const cvUrl = "/assets/CVf_abdessamad_el_oidii.pdf";
     window.open(cvUrl, "_blank");
   };
+  const title = "Resume";
   return (
     <section className="w-full flex-center flex-col mt-10">
       <h1 className="head_text text-center">
@@ -32,13 +35,30 @@ const Home = () => {
         Graphic Designer and An a Network and Telecommunications Engineering
         Student Who Loves to Work and Share Content.
       </p>
-      <div className="flex flex-row gap-2">
-        <button className="outline_btn mt-10" onClick={downloadCVEnglish}>
-        CV English
-        </button>
-        <button className="outline_btn mt-10" onClick={downloadCVFrench}>
-        CV French
-        </button>
+      <div className="flex flex-col gap-2 text-center mt-5">
+        <div>
+          <motion.h1
+            className="text-red-600 text-lg font-poppins"
+            initial={{ y: 20, opacity: 1 }}
+            animate={{ y: [0, -10, 0], opacity: 1 }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          >
+            Resume
+          </motion.h1>
+        </div>
+        <div className="flex flex-row gap-2">
+          <button className="outline_btn" onClick={downloadCVEnglish}>
+            English
+          </button>
+          <button className="outline_btn" onClick={downloadCVFrench}>
+            French
+          </button>
+        </div>
       </div>
       <div className="w-full flex-center justify-between mt-4">
         <Link
